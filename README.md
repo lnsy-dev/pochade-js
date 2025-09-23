@@ -1,4 +1,4 @@
-# context-engineering-boilerplate
+# Vanilla JS Frontend Component Boilerplate
 An rspack boilerplate for generating custom html elements that are easily compiled.
 
 I have added a few features to make utilizing the project easier. 
