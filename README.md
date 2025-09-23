@@ -32,3 +32,18 @@ npm run build
 ```
 
 This will create a `dist` folder with the bundled and optimized files.
+
+## Customizing the Build
+
+You can customize the build output by creating a `.env` file in the root of the project.
+
+### Output Filename
+
+To change the name of the output file, set the `OUTPUT_FILE_NAME` variable in your `.env` file.
+
+**.env**
+```
+OUTPUT_FILE_NAME=my-custom-filename.js
+```
+
+If this variable is not set, the output file will default to `main.min.js`.
