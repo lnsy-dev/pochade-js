@@ -21,7 +21,7 @@ To run the project in development mode, use the following command:
 npm run start
 ```
 
-This will start a development server, and you can view the project in your browser.
+This will start a development server. By default, it runs on port 3000. You can view the project in your browser.
 
 ## Building the Project
 
@@ -47,3 +47,14 @@ OUTPUT_FILE_NAME=my-custom-filename.js
 ```
 
 If this variable is not set, the output file will default to `main.min.js`.
+
+### Development Server Port
+
+You can also change the development server port by setting the `PORT` variable in your `.env` file.
+
+**.env**
+```
+PORT=8080
+```
+
+If this variable is not set, the port will default to `3000`.
