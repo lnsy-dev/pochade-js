@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 const path = require('path');
 
@@ -5,7 +6,7 @@ module.exports = {
   entry: './index.js',
   mode: 'development',
   output: {
-    filename: 'main.js',
+    filename: process.env.OUTPUT_FILE_NAME || 'main.min.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {

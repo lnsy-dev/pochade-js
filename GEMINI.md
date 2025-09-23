@@ -2,6 +2,8 @@
 
 This is a vanilla JavaScript, CSS, and HTML project that uses `rspack` as a builder.
 
+Do not run a dev server. Do not run `npm start` unless specifically asked to.
+
 ## Root Directory
 
 *   `.gitignore`: Specifies intentionally untracked files to ignore.
