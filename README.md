@@ -1,13 +1,18 @@
-# Vanilla JS Frontend Component Boilerplate
-An rspack boilerplate for generating custom html elements that are easily compiled.
+# Pochade-JS
 
-I have added a few features to make utilizing the project easier. 
-
-The `prompts/` folder is in the .gitignore file for your convenience.
+A vanilla JS, CSS and HTML boilerplate with Web Workers and Custom HTML Elements as first class citizens. 
 
 ## Installation
 
+Clone the Repository: 
+
 To install the project dependencies, run the following command:
+
+```bash
+git clone git@github.com:lnsy-dev/pochade-js.git
+```
+
+or use the  "Use Template" function on Github and clone that repository.
 
 ```bash
 npm install
@@ -46,7 +51,7 @@ To change the name of the output file, set the `OUTPUT_FILE_NAME` variable in yo
 OUTPUT_FILE_NAME=my-custom-filename.js
 ```
 
-If this variable is not set, the output file will default to `main.min.js`.
+If this variable is not set, the output file will default to `dist/main.min.js`.
 
 ### Development Server Port
 
