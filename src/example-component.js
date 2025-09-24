@@ -3,7 +3,11 @@ import DataroomElement from 'dataroom-js';
 class ExampleComponent extends DataroomElement {
   async initialize(){
     this.create("h1", {content: "Example Code"});
-    this.create("p", {content: "This element uses the dataroom.js. It provides a few features that make using custom HTML Elements easier!"})
+    const p = this.create("p", {content: "This element uses the dataroom.js. It provides a few features that make using custom HTML Elements easier!"})
+    this.create("a", {
+      content: "Check it out here!", 
+      href:"https://dataroom-network.github.io/dataroom.js/"}
+    );
 
     const worker = new Worker(new URL('./example-webworker.js', import.meta.url));
 
