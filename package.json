@@ -1,5 +1,5 @@
 {
-  "name": "context-engineering-boilerplate",
+  "name": "pochade-js",
   "version": "0.4.0",
   "description": "A context engineering boilerplate for generating custom HTML Elements",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lnsy-dev/context-engineering-boilerplate.git"
+    "url": "git+https://github.com/lnsy-dev/pochade-js.git"
   },
   "keywords": [
     "Context",
@@ -21,9 +21,9 @@
   "author": "LNSY",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/lnsy-dev/context-engineering-boilerplate/issues"
+    "url": "https://github.com/lnsy-dev/pochade-js/issues"
   },
-  "homepage": "https://github.com/lnsy-dev/context-engineering-boilerplate#readme",
+  "homepage": "https://github.com/lnsy-dev/pochade-js#readme",
   "devDependencies": {
     "@rspack/cli": "^1.5.6",
     "@rspack/core": "^1.5.6",
