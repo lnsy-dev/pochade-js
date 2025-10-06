@@ -1,5 +1,6 @@
 import DataroomElement from 'dataroom-js';
 
+
 class ExampleComponent extends DataroomElement {
   async initialize(){
     this.create("h1", {content: "Example Code"});
@@ -8,7 +9,6 @@ class ExampleComponent extends DataroomElement {
       content: "Check it out here!", 
       href:"https://dataroom-network.github.io/dataroom.js/"}
     );
-
     const worker = new Worker(new URL('./example-webworker.js', import.meta.url));
 
     worker.onmessage = (event) => {
