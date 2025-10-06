@@ -13,47 +13,23 @@
 */
 
 
-:root {  
-  --primary-hue: 27; /* Original primary hue */  
-  --saturation: 100%;  
-  --lightness: 50%;  
-
-  --primary-color: hsl(var(--primary-hue), var(--saturation), var(--lightness));  
-
-
-  /* Calculate complementary hue */
-  --complementary-hue: calc(var(--primary-hue) + 180);  
-  --complementary-color: hsl(var(--complementary-hue), var(--saturation), var(--lightness));  
-
-  /* Tertiary colors with different saturation levels */
-  --tertiary-hue-1: calc(var(--primary-hue) + 30); /* 1st tertiary hue */
-  --tertiary-hue-2: calc(var(--primary-hue) - 30); /* 2nd tertiary hue */
-  
-  --tertiary-color-1: hsl(var(--tertiary-hue-1), calc(var(--saturation) - 15%), var(--lightness));  
-  --tertiary-color-2: hsl(var(--tertiary-hue-2), calc(var(--saturation) - 20%), var(--lightness));
-
-  /* Secondary colors example */
-  --secondary-fg-color: color-mix(in srgb, var(--primary-color) 70%, var(--tertiary-color-1));
-  --secondary-bg-color: color-mix(in srgb, var(--primary-color) 90%, var(--tertiary-color-2));
-  
-  /* Neutral and highlight colors */
-  --highlight-color: var(--secondary-bg-color);
-  --neutral-color: color-mix(in srgb, var(--primary-color), var(--tertiary-color-1));
-
-  /* Extended tertiary for more background/fill options */
-  --tertiary-fg-color: color-mix(in srgb, var(--primary-color) 50%, var(--tertiary-color-2));
-  --tertiary-bg-color: color-mix(in srgb, var(--primary-color) 30%, black);
-
-  /* Quaternary colors with adjusted saturation */
-  --quaternary-fg-color: color-mix(in srgb, hsl(var(--primary-hue), 40%, var(--lightness)) 50%, var(--tertiary-color-2));
-  --quaternary-bg-color: color-mix(in srgb, hsl(var(--primary-hue), 40%, var(--lightness)) 10%, var(--tertiary-color-1));
-
-  /* Status colors with changes in saturation and hue */
-  --error-color: hsl(calc(var(--primary-hue) + 60), calc(var(--saturation) - 25%), calc(var(--lightness) - 15%));
-  --warning-color: hsl(calc(var(--primary-hue) + 45), calc(var(--saturation) - 20%), var(--lightness));
-  --confirm-color: hsl(calc(var(--primary-hue) - 120), calc(var(--saturation) - 15%), calc(var(--lightness) - 15%));
-
-  /* Other colors */
-  --border-color: var(--neutral-color);
-
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --hi: #ff9900;
+  --error-color: #ff0000;
+  --warning-color: #ffa500;
+  --confirm-color: #008000;
+  --color-1: #440154;
+  --color-2: #482878;
+  --color-3: #3e4989;
+  --color-4: #31688e;
+  --color-5: #26828e;
+  --color-6: #1f9e89;
+  --color-7: #35b779;
+  --color-8: #6ece58;
+  --color-9: #8fd744;
+  --color-10: #b8de29;
+  --color-11: #d8e219;
+  --color-12: #fde725;
 }
