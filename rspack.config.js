@@ -44,6 +44,16 @@ export default {
               sourceMap: !isProd,
             },
           },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  ['cssnano', { preset: ['default', { discardComments: { removeAll: true } }] }],
+                ],
+              },
+            },
+          },
         ],
       },
       {

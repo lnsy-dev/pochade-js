@@ -1,6 +1,6 @@
 {
   "name": "pochade-js",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A context engineering boilerplate for generating custom HTML Elements",
   "main": "dist/main.js",
   "repository": {
@@ -13,7 +13,7 @@
     "Vanilla",
     "Js"
   ],
-  "type":"module",
+  "type": "module",
   "author": "LNSY",
   "license": "Unlicense",
   "bugs": {
@@ -35,7 +35,7 @@
     "@rspack/core": "^1.5.6",
     "@rspack/dev-server": "^1.1.4",
     "css-loader": "^7.1.2",
-    "cssnano": "^7.1.1",
+    "cssnano": "^7.1.2",
     "dotenv": "^17.2.2",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.2.0",
