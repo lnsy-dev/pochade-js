@@ -1,46 +1,54 @@
-# Pochade-JS
+# create-pochade-js
 
-A vanilla JS, CSS and HTML boilerplate with Web Workers and Custom HTML Elements as first class citizens. 
+An npx starter template for creating vanilla JS, CSS and HTML projects with Web Workers and Custom HTML Elements as first class citizens.
 
-## Installation
+## Quick Start
 
-Clone the Repository: 
-
-To install the project dependencies, run the following command:
+Create a new Pochade-JS project with a single command:
 
 ```bash
-git clone git@github.com:lnsy-dev/pochade-js.git
+npx create-pochade-js my-app
 ```
 
-or use the  "Use Template" function on Github and clone that repository.
+This will:
+- Create a new directory called `my-app`
+- Copy all the necessary project files
+- Install all dependencies automatically
+- Set up your project and make it ready to use
+
+Then navigate to your project and start developing:
 
 ```bash
-npm install
+cd my-app
+npm start
 ```
 
-## Running the Project
+## What's Included
 
-To run the project in development mode, use the following command:
+Your new Pochade-JS project includes:
 
-```bash
-npm run start
-```
+- **Rspack** for fast bundling
+- **dataroom-js** for custom HTML elements
+- **Web Workers** support with automatic transformation
+- **PostCSS** with cssnano for CSS optimization
+- Development server with hot reload
+- Production build optimization
 
-This will start a development server. By default, it runs on port 3000. You can view the project in your browser.
+## Available Scripts
 
-## Building the Project
+In your new project directory, you can run:
 
-To build the project for production, use the following command:
+### `npm start`
 
-```bash
-npm run build
-```
+Runs the app in development mode. Open your browser to view it (default port: 3000).
 
-This will create a `dist` folder with the bundled and optimized files.
+### `npm run build`
+
+Builds the app for production to the `dist` folder. It correctly bundles your app and optimizes the build for the best performance.
 
 ## Customizing the Build
 
-You can customize the build output by creating a `.env` file in the root of the project.
+You can customize the build output by creating a `.env` file in the root of your project.
 
 ### Output Filename
 
@@ -63,3 +71,12 @@ PORT=8080
 ```
 
 If this variable is not set, the port will default to `3000`.
+
+## Publishing Your Template (For Maintainers)
+
+To publish this template to npm:
+
+1. Make sure you're logged into npm: `npm login`
+2. Publish the package: `npm publish`
+
+Users can then use it with `npx create-pochade-js`.
