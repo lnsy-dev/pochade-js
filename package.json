@@ -1,6 +1,6 @@
 {
   "name": "pochade-js",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A context engineering boilerplate for generating custom HTML Elements",
   "main": "dist/main.js",
   "repository": {
