@@ -1,6 +1,6 @@
 {
   "name": "pochade-js",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "A context engineering boilerplate for generating custom HTML Elements",
   "main": "dist/main.js",
   "repository": {
@@ -23,7 +23,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rspack serve",
-    "build": "rspack build"
+    "prebuild": "node scripts/transform-workers.js",
+    "build": "rspack build",
+    "postbuild": "git checkout -- src/"
   },
   "dependencies": {
     "dataroom-js": "^0.6.0"
