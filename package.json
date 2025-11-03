@@ -2,7 +2,7 @@
   "name": "pochade-js",
   "version": "0.5.4",
   "description": "A context engineering boilerplate for generating custom HTML Elements",
-  "main": "dist/main.js",
+  "main": "dist/main.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lnsy-dev/pochade-js.git"

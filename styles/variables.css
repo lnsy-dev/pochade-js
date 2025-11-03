@@ -14,16 +14,20 @@
 
 
 :root {
-  --background-color: #fcf9f0;    /* Light beige background */
-  --foreground-color: #0a5c0a;    /* Green text */
-  --highlight-color: #b3d9b6;     /* Darker green highlight for better contrast */
-  --secondary-color: #ede9d7;     /* Darker beige secondary */
-  --trinary-color: #8aa38a;       /* Darker muted green-gray */
-  --quaternary-color: #d4cfbd;    /* Darker border color */
-  --confirmation-color: #0a5c0a;  /* Success green */
-  --notification-color: #377c43;  /* Muted text green */
-  --inactive-color: #cccccc;      /* Inactive gray */
-  --warning-color: #639e71;       /* Soft green for warnings */
-  --error-color: #ff6b6b;         /* Added error color */
-  --neutral-color: #1c3320;       /* Dark green */
+  --background-color: #fcf9f0;
+  --foreground-color: #0a5c0a;
+  --highlight-color: #b3d9b6;
+  --secondary-color: #ede9d7;
+  --trinary-color: #8aa38a;
+  --quaternary-color: #d4cfbd;
+  --confirmation-color: #0a5c0a;
+  --notification-color: #377c43;
+  --inactive-color: #cccccc;
+  --warning-color: #639e71;
+  --error-color: #ff6b6b;
+  --neutral-color: #1c3320;
+  --h1-font-size: 200%;
+  --h2-font-size: 180%;
+  --h3-font-size: 150%;
+
 }
