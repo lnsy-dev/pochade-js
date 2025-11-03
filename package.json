@@ -41,6 +41,7 @@
   },
   "files": [
     "dist/main.min.js",
+    "dist/492.main.min.js",
     "index.css",
     "styles/variables.css",
     "src/"
