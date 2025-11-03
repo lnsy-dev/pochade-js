@@ -1,6 +1,6 @@
 # Pochade-Js
 
-An npx starter template for creating vanilla JS, CSS and HTML projects with Web Workers and Custom HTML Elements as first class citizens. Utilizes the [Dataroom-js](https://github.com/DATAROOM-NETWORK/dataroom.js) library for ease of use.
+An npx starter template for creating vanilla JS, CSS and HTML projects with Web Workers and Custom HTML Elements as first class citizens. Utilizes the [Dataroom-js](https://github.com/DATAROOM-NETWORK/dataroom.js) library for more ergonomic Custom HTML Element development.
 
 
 ## Quick Start
