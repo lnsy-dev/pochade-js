@@ -1,6 +1,6 @@
 {
   "name": "pochade-js",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "npx starter template for Pochade-JS projects",
   "bin": {
     "create-pochade-js": "./bin/create-pochade-js.js"
@@ -24,6 +24,7 @@
     "url": "https://github.com/lnsy-dev/pochade-js/issues"
   },
   "homepage": "https://github.com/lnsy-dev/pochade-js#readme",
+
   "dependencies": {
     "cross-spawn": "^7.0.6"
   },
