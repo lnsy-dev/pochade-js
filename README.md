@@ -7,7 +7,7 @@ An npx starter template for creating vanilla JS, CSS and HTML projects with Web 
 Create a new Pochade-JS project with a single command:
 
 ```bash
-npx create-pochade-js my-app
+npx pochade-js my-app
 ```
 
 This will:
