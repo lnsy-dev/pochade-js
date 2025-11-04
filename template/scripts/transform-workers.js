@@ -19,7 +19,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SRC_DIR = path.resolve(__dirname, '../src');
-const WORKER_PATTERN = /\.worker\.js$|-webworker\.js$|webworker\.js$/;
 
 /**
  * Read all files in a directory recursively
@@ -42,13 +41,30 @@ async function getAllFiles(dir) {
 }
 
 /**
- * Check if a file is a worker file based on naming convention
+ * Find all worker file paths referenced in JS files
  * 
- * @param {string} filePath - Path to check
- * @returns {boolean} True if file is a worker file
+ * @param {string[]} jsFiles - Array of JS file paths to scan
+ * @returns {Promise<Set<string>>} Set of resolved worker file paths
  */
-function isWorkerFile(filePath) {
-  return WORKER_PATTERN.test(filePath);
+async function findReferencedWorkers(jsFiles) {
+  const workerPaths = new Set();
+  
+  // Regex to match new Worker(...) patterns
+  const workerRegex = /new\s+Worker\s*\(\s*new\s+URL\s*\(\s*['"]([^'"]+)['"]\s*,\s*import\.meta\.url\s*\)\s*\)/g;
+  
+  for (const jsFile of jsFiles) {
+    const content = await fs.readFile(jsFile, 'utf-8');
+    const dir = path.dirname(jsFile);
+    
+    let match;
+    while ((match = workerRegex.exec(content)) !== null) {
+      const workerPath = match[1];
+      const resolvedPath = path.resolve(dir, workerPath);
+      workerPaths.add(resolvedPath);
+    }
+  }
+  
+  return workerPaths;
 }
 
 /**
@@ -75,8 +91,8 @@ async function transformFile(filePath, workerContents) {
   const content = await fs.readFile(filePath, 'utf-8');
   const dir = path.dirname(filePath);
   
-  // Match new Worker(new URL(...)) patterns for worker files
-  const workerRegex = /new\s+Worker\(new\s+URL\(['"]([^'"]+(?:\.worker|-webworker|webworker)\.js)['"]\s*,\s*import\.meta\.url\)\)/g;
+  // Match new Worker(new URL(...)) patterns
+  const workerRegex = /new\s+Worker\s*\(\s*new\s+URL\s*\(\s*['"]([^'"]+)['"]\s*,\s*import\.meta\.url\s*\)\s*\)/g;
   
   let matches = [];
   let match;
@@ -139,20 +155,27 @@ async function main() {
   try {
     // Get all files in src
     const allFiles = await getAllFiles(SRC_DIR);
+    const jsFiles = allFiles.filter(f => f.endsWith('.js'));
     
-    // Separate worker files and regular JS files
-    const workerFiles = allFiles.filter(f => isWorkerFile(f));
-    const jsFiles = allFiles.filter(f => f.endsWith('.js') && !isWorkerFile(f));
+    console.log(`Scanning ${jsFiles.length} JS files for worker references...`);
     
-    console.log(`Found ${workerFiles.length} worker files:`);
+    // Find all worker files referenced in the codebase
+    const workerPaths = await findReferencedWorkers(jsFiles);
+    const workerFiles = Array.from(workerPaths);
+    
+    console.log(`\nFound ${workerFiles.length} worker files:`);
     workerFiles.forEach(f => console.log(`  - ${path.relative(SRC_DIR, f)}`));
     console.log();
     
     // Read all worker file contents
     const workerContents = new Map();
     for (const workerFile of workerFiles) {
-      const content = await fs.readFile(workerFile, 'utf-8');
-      workerContents.set(workerFile, content);
+      try {
+        const content = await fs.readFile(workerFile, 'utf-8');
+        workerContents.set(workerFile, content);
+      } catch (error) {
+        console.warn(`Warning: Could not read worker file ${workerFile}: ${error.message}`);
+      }
     }
     
     // Transform each JS file
