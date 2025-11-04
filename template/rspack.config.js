@@ -32,32 +32,41 @@ export default {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [
-                ['cssnano', { preset: 'default' }]
-              ]
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  ['cssnano', { preset: 'default' }]
+                ]
+              }
             }
           }
-        }],
+        ],
         type: 'javascript/auto',
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'builtin:swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'ecmascript',
+        use: [
+          {
+            loader: path.resolve(__dirname, 'scripts/transform-workers.js'),
+          },
+          {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'ecmascript',
+                },
+                target: 'es2015',
               },
-              target: 'es2015',
             },
           },
-        },
+        ],
       },
     ],
   },

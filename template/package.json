@@ -33,9 +33,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rspack serve",
-    "prebuild": "node scripts/transform-workers.js",
-    "build": "rspack build",
-    "postbuild": "git checkout -- src/",
+    "build": "NODE_ENV=production rspack build",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
