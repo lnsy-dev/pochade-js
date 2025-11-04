@@ -56,4 +56,6 @@ class ExampleComponent extends DataroomElement {
 }
 
 // Register the custom element
-customElements.define('example-component', ExampleComponent)
+if (!customElements.get('example-component')) {
+  customElements.define('example-component', ExampleComponent);
+}

@@ -1,6 +1,5 @@
 # Development files
 node_modules/
-rspack.config.js
 .env*
 !.env.example
 package-lock.json
