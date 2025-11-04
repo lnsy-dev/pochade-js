@@ -1,17 +1,42 @@
 {
-  "name": "pochade-js-project",
+  "name": "test-web-worker-2",
   "version": "1.0.0",
-  "description": "A vanilla JS, CSS and HTML boilerplate with Web Workers and Custom HTML Elements",
+  "description": "A vanilla JS, CSS and HTML boilerplate with Web Workers and Custom HTML Elements using dataroom-js",
   "main": "dist/main.min.js",
   "type": "module",
-  "author": "",
+  "author": "Lindsey Mysse <lindsey@example.com>",
   "license": "Unlicense",
+  "keywords": [
+    "web-workers",
+    "custom-elements",
+    "vanilla-js",
+    "dataroom-js",
+    "rspack",
+    "boilerplate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lindseymysse/test-web-worker-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lindseymysse/test-web-worker-2/issues"
+  },
+  "homepage": "https://github.com/lindseymysse/test-web-worker-2#readme",
+  "files": [
+    "dist/",
+    "src/",
+    "styles/",
+    "index.js",
+    "index.css",
+    "index.html"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rspack serve",
     "prebuild": "node scripts/transform-workers.js",
     "build": "rspack build",
-    "postbuild": "git checkout -- src/"
+    "postbuild": "git checkout -- src/",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "dataroom-js": "^0.6.0"
