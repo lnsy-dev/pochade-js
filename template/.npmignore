@@ -14,9 +14,6 @@ prompts/
 WARP.md
 GEMINI.md
 
-# Scripts (not needed for npm consumers)
-scripts/
-
 # Source files are included, but these are not needed
 .DS_Store
 *.log
