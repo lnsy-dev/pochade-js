@@ -108,46 +108,6 @@ function updateIndexHtml(projectDir, config) {
   fs.writeFileSync(indexPath, content, 'utf-8');
 }
 
-/**
- * Initializes git repository and sets up remote
- * 
- * @param {string} projectDir - The project directory path
- * @param {object} config - Configuration object
- * @returns {void}
- */
-function initializeGit(projectDir, config) {
-  if (!config.github_username || !config.project_name) {
-    console.log('\n⚠️  Skipping git initialization (GitHub username not provided)');
-    return;
-  }
-  
-  console.log('\n🔧 Initializing git repository...');
-  
-  // Initialize git
-  const initResult = spawn.sync('git', ['init'], {
-    cwd: projectDir,
-    stdio: 'inherit'
-  });
-  
-  if (initResult.status !== 0) {
-    console.error('\n⚠️  Warning: git init failed.');
-    return;
-  }
-  
-  // Add remote
-  const remoteUrl = `https://github.com/${config.github_username}/${config.project_name}.git`;
-  const remoteResult = spawn.sync('git', ['remote', 'add', 'origin', remoteUrl], {
-    cwd: projectDir,
-    stdio: 'inherit'
-  });
-  
-  if (remoteResult.status !== 0) {
-    console.error('\n⚠️  Warning: Failed to add git remote.');
-    return;
-  }
-  
-  console.log(`✅ Git initialized with remote: ${remoteUrl}`);
-}
 
 /**
  * Main function to create a new Pochade-JS project
@@ -260,9 +220,6 @@ async function createProject() {
     console.error('\n❌ Error: npm install failed.');
     process.exit(1);
   }
-
-  // Initialize git repository
-  initializeGit(projectDir, config);
 
   console.log('\n✨ Success! Your new Pochade-JS project is ready.');
   console.log(`\n📁 Created ${projectName} at ${projectDir}`);
