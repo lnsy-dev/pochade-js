@@ -100,7 +100,7 @@ export default {
             patterns: [
               {
                 from: 'assets',
-                to: 'assets',
+                to: '.',
               },
             ],
           }),
