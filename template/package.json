@@ -1,6 +1,6 @@
 {
-  "name": "test-web-worker-2",
-  "version": "1.0.0",
+  "name": "",
+  "version": "0.1.0",
   "description": "A vanilla JS, CSS and HTML boilerplate with Web Workers and Custom HTML Elements using dataroom-js",
   "main": "dist/main.min.js",
   "type": "module",
@@ -43,6 +43,7 @@
     "@rspack/cli": "^1.5.6",
     "@rspack/core": "^1.5.6",
     "@rspack/dev-server": "^1.1.4",
+    "copy-rspack-plugin": "^1.0.0",
     "css-loader": "^7.1.2",
     "cssnano": "^7.1.2",
     "dotenv": "^17.2.2",
