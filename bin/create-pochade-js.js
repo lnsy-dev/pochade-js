@@ -56,6 +56,10 @@ function ask(rl, question, defaultValue = '') {
 async function collectProjectInfo(projectName) {
   const rl = createReadlineInterface();
   
+  const logo = ".-. .-. .-. . . .-. .-. .-.   . .-.\r\n|-\' | | |   |-| |-| |  )|-    | `-.\r\n\'   `-\' `-\' \' ` ` \' `-\' `-\' `-\' `-\'\r\n       Write JS with Passion\r\n             By LNSY\r\n"
+  console.log(logo);
+
+
   console.log('\n📝 Let\'s set up your Pochade-JS project!\n');
   
   const config = {

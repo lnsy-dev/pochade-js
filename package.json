@@ -1,6 +1,6 @@
 {
   "name": "pochade-js",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "npx starter template for Pochade-JS projects",
   "bin": {
     "create-pochade-js": "./bin/create-pochade-js.js"
