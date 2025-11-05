@@ -48,6 +48,9 @@ class ExampleComponent extends DataroomElement {
     worker.onmessage = (event) => {
       console.log("Message received from worker:", event.data);
       this.create("p", {content: JSON.stringify(event.data)});
+
+      // Emits a dataroom event
+      this.event("WEB-WORKER-RESPONSE", event.data);
     };
 
     // Send initial message to worker

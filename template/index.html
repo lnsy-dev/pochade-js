@@ -20,7 +20,20 @@
 </head>
 
 <body>
-  <example-component></example-component>
+  <example-component id="example_component"></example-component>
+  <script>
+
+    //This should probably be an onload command, but for simplicity's sake
+    // we're just going to use a timeout. This ensurues this code doesn't
+    // run until the custom Elements are rendered
+    setTimeout(()=>{
+      // notice we use the dataroom.js "once" function -- dataroom-js
+      // has custom events setup for ease of use. 
+      example_component.once("WEB-WORKER-RESPONSE", (data) => {
+        console.log(data)
+      })
+    },100)
+  </script>
 </body>
 
 </html>
