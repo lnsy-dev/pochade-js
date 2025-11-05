@@ -2,7 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { rspack } from '@rspack/core';
-import CopyPlugin from 'copy-rspack-plugin';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +11,18 @@ dotenv.config();
 
 const outputFileName = process.env.OUTPUT_FILE_NAME || 'main.min.js';
 const port = process.env.PORT || 3000;
+
+/**
+ * Check if assets directory exists and has files
+ */
+const assetsPath = path.join(__dirname, 'assets');
+const hasAssets = (() => {
+  try {
+    return fs.existsSync(assetsPath) && fs.readdirSync(assetsPath).length > 0;
+  } catch {
+    return false;
+  }
+})();
 
 export default {
   entry: './index.js',
@@ -82,13 +94,17 @@ export default {
     new rspack.HtmlRspackPlugin({
       template: './index.html',
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'assets',
-          to: 'assets',
-        },
-      ],
-    }),
+    ...(hasAssets
+      ? [
+          new rspack.CopyRspackPlugin({
+            patterns: [
+              {
+                from: 'assets',
+                to: 'assets',
+              },
+            ],
+          }),
+        ]
+      : []),
   ],
 };
