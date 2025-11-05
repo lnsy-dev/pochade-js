@@ -29,10 +29,10 @@
     setTimeout(()=>{
       // notice we use the dataroom.js "once" function -- dataroom-js
       // has custom events setup for ease of use. 
-      example_component.once("WEB-WORKER-RESPONSE", (data) => {
+      example_component.on("WEB-WORKER-RESPONSE", (data) => {
         console.log(data)
       })
-    },100)
+    },1000)
   </script>
 </body>
 
