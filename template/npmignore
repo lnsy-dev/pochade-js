@@ -4,6 +4,15 @@ node_modules/
 !.env.example
 package-lock.json
 prompts/
+assets/
+dist/index.html
+dist/*.gif
+dist/*.jpg
+dist/*.mp3
+dist/*.mp4
+dist/*.webp
+dist/*.html
+dist/*.css
 
 # Version control
 .git/
