@@ -24,14 +24,16 @@ const hasAssets = (() => {
   }
 })();
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export default {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: outputFileName,
+    filename: isDev ? '[name].js' : outputFileName,
     clean: true,
   },
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  mode: isDev ? 'development' : 'production',
   devServer: {
     static: {
       directory: path.join(__dirname, 'assets'),
@@ -46,20 +48,10 @@ export default {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          isDev ? 'style-loader' : rspack.CssExtractRspackPlugin.loader,
           'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  ['cssnano', { preset: 'default' }]
-                ]
-              }
-            }
-          }
+          'postcss-loader'
         ],
-        type: 'javascript/auto',
       },
       {
         test: /\.js$/,
@@ -85,7 +77,7 @@ export default {
   },
   optimization: {
     splitChunks: false,
-    runtimeChunk: false,
+    runtimeChunk: isDev ? 'single' : false,
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -94,6 +86,7 @@ export default {
     new rspack.HtmlRspackPlugin({
       template: './index.html',
     }),
+    ...(!isDev ? [new rspack.CssExtractRspackPlugin()] : []),
     ...(hasAssets
       ? [
           new rspack.CopyRspackPlugin({
