@@ -37,7 +37,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "dataroom-js": "^0.6.0"
+    "dataroom-js": "^0.8.0"
   },
   "devDependencies": {
     "@rspack/cli": "^1.5.6",
