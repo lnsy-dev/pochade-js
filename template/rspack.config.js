@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
-const outputFileName = process.env.OUTPUT_FILE_NAME || 'main.min.js';
+const outputFileName = process.env.OUTPUT_FILE_NAME || 'command-panel.min.js';
 const port = process.env.PORT || 3000;
 
 /**
@@ -48,9 +48,30 @@ export default {
       {
         test: /\.css$/,
         use: [
-          isDev ? 'style-loader' : rspack.CssExtractRspackPlugin.loader,
-          'css-loader',
-          'postcss-loader'
+          isDev ? rspack.CssExtractRspackPlugin.loader : 'style-loader',
+          {
+            loader: 'css-loader',
+            options: isDev ? {} : {
+              importLoaders: 1,
+              modules: false,
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: isDev ? {} : {
+              postcssOptions: {
+                plugins: [
+                  ['cssnano', {
+                    preset: ['default', {
+                      discardComments: {
+                        removeAll: true,
+                      },
+                    }],
+                  }],
+                ],
+              },
+            }
+          }
         ],
       },
       {
@@ -86,7 +107,7 @@ export default {
     new rspack.HtmlRspackPlugin({
       template: './index.html',
     }),
-    ...(!isDev ? [new rspack.CssExtractRspackPlugin()] : []),
+    ...(isDev ? [new rspack.CssExtractRspackPlugin()] : []),
     ...(hasAssets
       ? [
           new rspack.CopyRspackPlugin({
