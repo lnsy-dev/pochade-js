@@ -54,3 +54,8 @@
 
 
 @import "./styles/variables.css";
+
+body {
+  background-color: var(--background-color);
+  color: var(--foreground-colod);
+}

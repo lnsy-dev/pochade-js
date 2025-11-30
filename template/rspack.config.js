@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
-const outputFileName = process.env.OUTPUT_FILE_NAME || 'command-panel.min.js';
+const outputFileName = process.env.OUTPUT_FILE_NAME || 'main.min.js';
+const separateCss = process.env.SEPARATE_CSS === 'true';
 const port = process.env.PORT || 3000;
 
 /**
@@ -48,7 +49,7 @@ export default {
       {
         test: /\.css$/,
         use: [
-          isDev ? rspack.CssExtractRspackPlugin.loader : 'style-loader',
+          separateCss ? rspack.CssExtractRspackPlugin.loader : 'style-loader',
           {
             loader: 'css-loader',
             options: isDev ? {} : {
@@ -107,7 +108,7 @@ export default {
     new rspack.HtmlRspackPlugin({
       template: './index.html',
     }),
-    ...(isDev ? [new rspack.CssExtractRspackPlugin()] : []),
+    ...(separateCss ? [new rspack.CssExtractRspackPlugin()] : []),
     ...(hasAssets
       ? [
           new rspack.CopyRspackPlugin({
