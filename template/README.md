@@ -56,6 +56,18 @@ PORT=8080
 
 If this variable is not set, the port will default to `3000`.
 
+### CSS Output
+
+You can control whether CSS is bundled into the JavaScript file or output as a separate file by setting the `SEPARATE_CSS` variable in your `.env` file.
+
+**.env**
+```
+SEPARATE_CSS=true
+```
+
+- `true`: CSS is extracted to a separate file (e.g., `main.css`).
+- `false` (default): CSS is injected into the DOM via JavaScript (using `style-loader`).
+
 ## Project Structure
 
 - `src/` - Your JavaScript source files
@@ -124,6 +136,7 @@ Place any static files (images, fonts, etc.) in the `assets/` directory and they
 - `.env` file support via dotenv
 - `OUTPUT_FILE_NAME` - Customize output filename (default: `main.min.js`)
 - `PORT` - Configure dev server port (default: `3000`)
+- `SEPARATE_CSS` - Control CSS extraction (default: `false`)
 - `NODE_ENV` - Set to `production` for production builds
 
 ## Technologies
