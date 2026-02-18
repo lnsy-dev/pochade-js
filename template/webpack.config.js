@@ -1,7 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { rspack } from '@rspack/core';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,7 +51,7 @@ export default {
       {
         test: /\.css$/,
         use: [
-          separateCss ? rspack.CssExtractRspackPlugin.loader : 'style-loader',
+          separateCss ? MiniCssExtractPlugin.loader : 'style-loader',
           {
             loader: 'css-loader',
             options: isDev ? {} : {
@@ -83,7 +85,7 @@ export default {
             loader: path.resolve(__dirname, 'scripts/transform-workers.js'),
           },
           {
-            loader: 'builtin:swc-loader',
+            loader: 'swc-loader',
             options: {
               jsc: {
                 parser: {
@@ -105,13 +107,13 @@ export default {
     extensions: ['.js', '.json'],
   },
   plugins: [
-    new rspack.HtmlRspackPlugin({
+    new HtmlWebpackPlugin({
       template: './index.html',
     }),
-    ...(separateCss ? [new rspack.CssExtractRspackPlugin()] : []),
+    ...(separateCss ? [new MiniCssExtractPlugin()] : []),
     ...(hasAssets
       ? [
-          new rspack.CopyRspackPlugin({
+          new CopyWebpackPlugin({
             patterns: [
               {
                 from: 'assets',

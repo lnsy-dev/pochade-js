@@ -76,13 +76,13 @@ SEPARATE_CSS=true
 - `index.html` - Main HTML file
 - `index.js` - Main JavaScript entry point
 - `index.css` - Main CSS file
-- `rspack.config.js` - Rspack configuration
+- `webpack.config.js` - Webpack configuration
 
-## Rspack Build Configuration
+## Webpack Build Configuration
 
 ### Features
 
-The project uses Rspack with the following features configured:
+The project uses Webpack with the following features configured:
 
 #### Module Processing
 
@@ -94,7 +94,7 @@ The project uses Rspack with the following features configured:
   - Automatic comment removal in production builds
 
 - **JavaScript Processing**
-  - `builtin:swc-loader` - Fast JavaScript transpilation
+  - `swc-loader` - Fast JavaScript transpilation
   - Custom `transform-workers.js` loader - Transforms web worker imports
   - Dynamic imports forced to eager mode for web worker compatibility
   - Source maps enabled in development mode
@@ -112,7 +112,7 @@ The build system includes special handling for web workers:
 The `assets/` folder receives special treatment:
 
 - **Development Server**: Assets are served from the root path (`/`) if the directory exists and contains files
-- **Production Build**: Assets are copied to the dist root (not in a subdirectory) via `CopyRspackPlugin`
+- **Production Build**: Assets are copied to the dist root (not in a subdirectory) via `CopyWebpackPlugin`
 - **Conditional Loading**: Assets are only processed if the directory exists and has files
 
 Place any static files (images, fonts, etc.) in the `assets/` directory and they will be accessible from the root path in both dev and production.
@@ -141,7 +141,7 @@ Place any static files (images, fonts, etc.) in the `assets/` directory and they
 
 ## Technologies
 
-- **Rspack** - Fast bundler for development and production
+- **Webpack** - Fast bundler for development and production
 - **dataroom-js** - Custom HTML elements framework
 - **Web Workers** - For parallel processing
 - **PostCSS** - CSS processing with cssnano optimization
@@ -208,4 +208,4 @@ The package includes:
 - `index.js`, `index.css`, `index.html` - Entry files
 - `package.json` and related metadata
 
-Development files (rspack config, build scripts, tests, etc.) are excluded via `.npmignore`.
+Development files (webpack config, build scripts, tests, etc.) are excluded via `.npmignore`.

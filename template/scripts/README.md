@@ -22,7 +22,7 @@ This script runs automatically as a prebuild hook when you run `npm run build`.
 npm run build
 # Runs in this order:
 # 1. prebuild: node scripts/transform-workers.js
-# 2. build: rspack build
+# 2. build: webpack build
 # 3. postbuild: git checkout -- src/
 ```
 

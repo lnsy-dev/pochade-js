@@ -1,6 +1,6 @@
 # WARP.md
 
-This is a vanilla js, css and html project. It uses rspack to build the files. 
+This is a vanilla js, css and html project. It uses webpack to build the files. 
 
 
 

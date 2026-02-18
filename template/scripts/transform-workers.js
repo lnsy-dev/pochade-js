@@ -1,5 +1,5 @@
 /**
- * Web Worker Inline Loader for Rspack
+ * Web Worker Inline Loader for Webpack
  * 
  * This loader transforms web worker imports into inline Blob-based workers.
  * It detects patterns like:
@@ -24,7 +24,7 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * Rspack loader function
+ * Webpack loader function
  * 
  * @param {string} source - The source code of the file being processed
  * @returns {string} Transformed source code
@@ -57,7 +57,7 @@ export default function workerInlineLoader(source) {
     matches.map(async ({ workerPath }) => {
       const resolvedPath = path.resolve(resourceDir, workerPath);
       
-      // Add the worker file as a dependency so rspack watches it
+      // Add the worker file as a dependency so webpack watches it
       this.addDependency(resolvedPath);
       
       try {
