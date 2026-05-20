@@ -1,0 +1,46 @@
+/**
+ * Counter Component Styles
+ *
+ * Styles for the counter-component custom element.
+ * These are standard CSS rules targeting the custom element and its children.
+ *
+ * For LLMs: Component-specific styles should live in their own file under
+ * styles/ and be imported in index.css. We do NOT use Shadow DOM, so these
+ * styles apply globally and cascade normally.
+ */
+
+counter-component {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+counter-component .counter-display {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--foreground-color);
+  margin: 0.5rem 0;
+}
+
+counter-component .counter-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+counter-component .counter-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 2px solid var(--foreground-color);
+  background-color: var(--secondary-color);
+  color: var(--foreground-color);
+  border-radius: 4px;
+}
+
+counter-component .counter-controls button:hover {
+  background-color: var(--highlight-color);
+}

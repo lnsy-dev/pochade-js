@@ -1,5 +1,3 @@
 node_modules
-LICENSE
-package-lock.json
-prompts
-.git
+template/node_modules
+template/dist

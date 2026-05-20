@@ -1,6 +1,6 @@
 # Pochade-JS Project
 
-A vanilla JS, CSS and HTML project with Web Workers and Custom HTML Elements as first class citizens.
+A vanilla JS, CSS and HTML project with Web Workers, WebAssembly, and Custom HTML Elements as first class citizens.
 
 ## Getting Started
 
@@ -8,6 +8,12 @@ Install dependencies:
 
 ```bash
 npm install
+```
+
+Install Playwright browsers (required for testing):
+
+```bash
+npx playwright install
 ```
 
 ## Running the Project
@@ -25,10 +31,30 @@ This will start a development server. By default, it runs on port 3000. You can 
 To build the project for production:
 
 ```bash
-npm build
+npm run build
 ```
 
 This will create a `dist` folder with the bundled and optimized files.
+
+## Testing
+
+Run the Playwright end-to-end test suite:
+
+```bash
+npm test
+```
+
+Run tests with the Playwright UI for debugging:
+
+```bash
+npm test:ui
+```
+
+Run tests against the production build:
+
+```bash
+npm test:prod
+```
 
 ## Customizing the Build
 
@@ -71,12 +97,15 @@ SEPARATE_CSS=true
 ## Project Structure
 
 - `src/` - Your JavaScript source files
+- `src/wasm/` - WebAssembly source files (C++ and Rust)
 - `styles/` - CSS files
+- `tests/` - Playwright E2E tests
 - `scripts/` - Build scripts (including Web Worker transformation)
 - `index.html` - Main HTML file
 - `index.js` - Main JavaScript entry point
 - `index.css` - Main CSS file
 - `webpack.config.js` - Webpack configuration
+- `playwright.config.js` - Playwright test configuration
 
 ## Webpack Build Configuration
 
@@ -99,6 +128,11 @@ The project uses Webpack with the following features configured:
   - Dynamic imports forced to eager mode for web worker compatibility
   - Source maps enabled in development mode
 
+- **WebAssembly Processing**
+  - `experiments.asyncWebAssembly` enabled for Webpack 5 native wasm support
+  - `asset/resource` loader emits `.wasm` files to `dist/wasm/`
+  - Supports both Emscripten-generated and wasm-pack-generated modules
+
 #### Web Workers
 
 The build system includes special handling for web workers:
@@ -106,6 +140,13 @@ The build system includes special handling for web workers:
 - Custom loader (`scripts/transform-workers.js`) transforms worker imports
 - Dynamic imports are eagerly evaluated for worker compatibility
 - Workers are properly bundled and can be imported in your code
+
+#### WebAssembly
+
+The template includes pre-built WebAssembly examples:
+
+- **C++ (Emscripten)**: `src/wasm/cpp/fibonacci.cpp` compiled to `fibonacci.js` + `fibonacci.wasm`
+- **Rust (wasm-pack)**: `src/wasm/rust/fibonacci/src/lib.rs` compiled to `pkg/fibonacci.js` + `fibonacci_bg.wasm`
 
 #### Assets Directory
 
@@ -139,13 +180,41 @@ Place any static files (images, fonts, etc.) in the `assets/` directory and they
 - `SEPARATE_CSS` - Control CSS extraction (default: `false`)
 - `NODE_ENV` - Set to `production` for production builds
 
+## WebAssembly
+
+### C++ (Emscripten)
+
+The C++ example is located in `src/wasm/cpp/`.
+
+To rebuild the C++ WebAssembly module (requires Emscripten SDK):
+
+```bash
+npm run build:wasm:cpp
+```
+
+### Rust (wasm-pack)
+
+The Rust example is located in `src/wasm/rust/fibonacci/`.
+
+To rebuild the Rust WebAssembly module (requires wasm-pack):
+
+```bash
+npm run build:wasm:rust
+```
+
+### Using WebAssembly in Components
+
+See `src/wasm-cpp-component.js` and `src/wasm-rust-component.js` for complete examples of loading and using WebAssembly modules in dataroom-js components.
+
 ## Technologies
 
 - **Webpack** - Fast bundler for development and production
 - **dataroom-js** - Custom HTML elements framework
 - **Web Workers** - For parallel processing
+- **WebAssembly** - For high-performance compute (C++ and Rust)
 - **PostCSS** - CSS processing with cssnano optimization
 - **SWC** - Fast JavaScript/TypeScript compiler
+- **Playwright** - End-to-end testing
 
 ## Publishing to npm
 
@@ -170,6 +239,11 @@ This project is configured for publishing to npm. Follow these steps to publish:
    npm run build
    ```
    Ensure the `dist/` directory is created successfully.
+
+4. **Run the tests**:
+   ```bash
+   npm test
+   ```
 
 ### Publishing
 
