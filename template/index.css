@@ -66,7 +66,9 @@
 /* Component-specific styles */
 @import './styles/counter-component.css';
 @import './styles/fetch-example-component.css';
+/* <WASM> */
 @import './styles/wasm-components.css';
+/* </WASM> */
 
 /* Global base styles */
 body {

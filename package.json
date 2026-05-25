@@ -27,7 +27,7 @@
   "homepage": "https://github.com/lnsy-dev/pochade-js#readme",
 
   "scripts": {
-    "prepublishOnly": "rm -rf template/node_modules template/dist template/test-results template/playwright-report"
+    "prepublishOnly": "rm -rf template/node_modules template/dist template/test-results template/playwright-report template/src/wasm/rust/**/target"
   },
   "dependencies": {
     "cross-spawn": "^7.0.6"

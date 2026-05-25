@@ -52,6 +52,7 @@
     <fetch-example-component id="fetch_component"></fetch-example-component>
   </section>
 
+  <!-- <WASM-SECTION> -->
   <!-- ========================================================================= -->
   <!-- WebAssembly Examples                                                      -->
   <!-- ========================================================================= -->
@@ -59,12 +60,17 @@
   <section id="wasm-examples">
     <h2>WebAssembly Examples</h2>
 
+    <!-- <WASM-CPP> -->
     <!-- C++ WebAssembly: Emscripten-compiled fibonacci calculator -->
     <wasm-cpp-component id="wasm_cpp_component"></wasm-cpp-component>
+    <!-- </WASM-CPP> -->
 
+    <!-- <WASM-RUST> -->
     <!-- Rust WebAssembly: wasm-pack compiled fibonacci calculator -->
     <wasm-rust-component id="wasm_rust_component"></wasm-rust-component>
+    <!-- </WASM-RUST> -->
   </section>
+  <!-- </WASM-SECTION> -->
 
   <script>
     /**
@@ -93,18 +99,23 @@
         });
       }
 
-      // Listen for wasm computation results
+      // <WASM-CPP>
+      // Listen for C++ wasm computation results
       if (typeof wasm_cpp_component !== 'undefined' && wasm_cpp_component.on) {
         wasm_cpp_component.on('WASM-CPP-RESULT', (data) => {
           console.log('[Main Thread] C++ WASM result:', data);
         });
       }
+      // </WASM-CPP>
 
+      // <WASM-RUST>
+      // Listen for Rust wasm computation results
       if (typeof wasm_rust_component !== 'undefined' && wasm_rust_component.on) {
         wasm_rust_component.on('WASM-RUST-RESULT', (data) => {
           console.log('[Main Thread] Rust WASM result:', data);
         });
       }
+      // </WASM-RUST>
     }, 1000);
   </script>
 </body>

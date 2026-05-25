@@ -38,11 +38,15 @@ import './src/fetch-example-component.js';
 // WebAssembly Examples
 // ============================================================================
 
+// <WASM-CPP>
 // C++ WebAssembly: demonstrates loading an Emscripten-compiled wasm module
 import './src/wasm-cpp-component.js';
+// </WASM-CPP>
 
+// <WASM-RUST>
 // Rust WebAssembly: demonstrates loading a wasm-pack compiled module
 import './src/wasm-rust-component.js';
+// </WASM-RUST>
 
 // ============================================================================
 // Application Bootstrap
