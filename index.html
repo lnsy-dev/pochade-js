@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pochade-JS — For Writing JS with Passion</title>
+  <meta name="description" content="A lightweight, opinionated starter template for building vanilla JavaScript projects with modern tooling.">
+  <meta property="og:title" content="Pochade-JS">
+  <meta property="og:description" content="For Writing JS with Passion. A lightweight starter template for vanilla JS projects with modern tooling.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://github.com/lnsy-dev/pochade-js/raw/main/pochade-js.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #fcf9f0;
+      --fg: #0a5c0a;
+      --accent: #b3d9b6;
+      --secondary: #ede9d7;
+      --trinary: #8aa38a;
+      --muted: #1c3320;
+      --error: #ff6b6b;
+      --max-width: 860px;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      --mono: 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--fg); text-decoration: underline; text-underline-offset: 0.15em; }
+    a:hover { opacity: 0.8; }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 3rem 0 2.5rem;
+    }
+
+    .hero img {
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      margin: 1.2rem 0 0.3rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .hero .tagline {
+      font-size: 1.15rem;
+      color: var(--trinary);
+      margin: 0 0 1.5rem;
+    }
+
+    .hero .manifesto {
+      max-width: 560px;
+      margin: 0 auto 1.8rem;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    /* Install command */
+    .install-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--fg);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(10, 92, 10, 0.2);
+      cursor: pointer;
+      user-select: all;
+      transition: transform 0.15s ease;
+    }
+
+    .install-box:hover { transform: translateY(-2px); }
+
+    .install-box .prompt { color: var(--accent); user-select: none; }
+
+    .copy-hint {
+      font-size: 0.8rem;
+      color: var(--trinary);
+      margin-top: 0.6rem;
+    }
+
+    /* Sections */
+    section { padding: 2.5rem 0; }
+
+    h2 {
+      font-size: 1.6rem;
+      margin: 0 0 1.25rem;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.4rem;
+      display: inline-block;
+    }
+
+    h3 { font-size: 1.15rem; margin: 0 0 0.4rem; }
+
+    /* Features grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .feature {
+      background: var(--secondary);
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(10, 92, 10, 0.1);
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Quick start steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--secondary);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--fg);
+      color: var(--bg);
+      font-weight: 700;
+      border-radius: 50%;
+      font-size: 0.9rem;
+    }
+
+    .step code {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      background: rgba(10, 92, 10, 0.08);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .step p { margin: 0; }
+
+    /* Project tree */
+    .tree {
+      background: var(--secondary);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-top: 1rem;
+      white-space: pre;
+    }
+
+    .tree .dir { color: var(--fg); font-weight: 600; }
+    .tree .file { color: var(--muted); }
+    .tree .comment { color: var(--trinary); }
+
+    /* Philosophy */
+    .philosophy {
+      background: var(--fg);
+      color: var(--bg);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .philosophy h2 {
+      border-bottom-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .philosophy p {
+      max-width: 560px;
+      margin: 0.75rem auto 0;
+      opacity: 0.95;
+    }
+
+    .philosophy ul {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.25rem;
+    }
+
+    .philosophy li {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .philosophy li::before {
+      content: "✓";
+      margin-right: 0.4rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2.5rem 0 3rem;
+      font-size: 0.9rem;
+      color: var(--trinary);
+    }
+
+    footer a { color: var(--trinary); }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero img { max-width: 200px; }
+      .install-box { font-size: 0.85rem; padding: 0.75rem 1rem; }
+      .philosophy { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <img src="pochade-js.png" alt="Pochade-JS logo">
+      <h1>Pochade-JS</h1>
+      <p class="tagline">For Writing JS with Passion</p>
+      <p class="manifesto">
+        A lightweight, opinionated starter template for building vanilla JavaScript projects with modern tooling.
+        No framework lock-in. No unnecessary abstractions. Just fast, passionate code.
+      </p>
+      <div class="install-box" onclick="navigator.clipboard.writeText('npx create-pochade-js my-project'); this.querySelector('.copy-hint').textContent='Copied!'; setTimeout(()=>this.querySelector('.copy-hint').textContent='Click to copy', 1500);" title="Click to copy">
+        <span class="prompt">$</span>
+        <span>npx create-pochade-js my-project</span>
+      </div>
+      <p class="copy-hint">Click to copy</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Features -->
+    <section class="container">
+      <h2>Features</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <h3>🧩 Custom HTML Elements</h3>
+          <p>Built-in support for <strong>dataroom-js</strong>. Create reusable components without Shadow DOM complexity.</p>
+        </div>
+        <div class="feature">
+          <h3>⚡ Web Workers</h3>
+          <p>First-class support for parallel processing with automatic bundling and transformation.</p>
+        </div>
+        <div class="feature">
+          <h3>🔥 Fast Builds</h3>
+          <p>Powered by <strong>Rspack</strong> for lightning-fast development and production builds.</p>
+        </div>
+        <div class="feature">
+          <h3>🎨 Modern CSS</h3>
+          <p>PostCSS with cssnano optimization. Write real CSS—no CSS-in-JS required.</p>
+        </div>
+        <div class="feature">
+          <h3>📦 Static Assets</h3>
+          <p>Automatic asset handling for images, fonts, and other static files. Just drop them in <code>assets/</code>.</p>
+        </div>
+        <div class="feature">
+          <h3>🤖 AI Context</h3>
+          <p>Includes LLM-friendly documentation (<code>AGENTS.md</code>, <code>LLM.md</code>) for AI-assisted development.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="container">
+      <h2>Quick Start</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-number">1</span>
+          <p>Scaffold a new project: <code>npx create-pochade-js my-project</code></p>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <p>Answer the interactive prompts (title, description, author, license, etc.).</p>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <p>Enter your project: <code>cd my-project</code></p>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <p>Start the dev server: <code>npm start</code> — then open <code>http://localhost:3000</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Structure -->
+    <section class="container">
+      <h2>What You Get</h2>
+      <div class="tree">
+<span class="dir">my-project/</span>
+├── <span class="dir">assets/</span>              <span class="comment"># Static files (images, fonts, etc.)</span>
+├── <span class="dir">src/</span>                 <span class="comment"># JavaScript source files</span>
+│   ├── <span class="file">example-component.js</span>
+│   └── <span class="file">example-webworker.js</span>
+├── <span class="dir">styles/</span>              <span class="comment"># CSS files</span>
+│   └── <span class="file">variables.css</span>
+├── <span class="dir">scripts/</span>             <span class="comment"># Build scripts</span>
+│   └── <span class="file">transform-workers.js</span>
+├── <span class="file">index.html</span>           <span class="comment"># Main HTML file</span>
+├── <span class="file">index.js</span>             <span class="comment"># Main JS entry point</span>
+├── <span class="file">index.css</span>            <span class="comment"># Main CSS file</span>
+├── <span class="file">rspack.config.js</span>     <span class="comment"># Build configuration</span>
+├── <span class="file">package.json</span>         <span class="comment"># Project metadata</span>
+└── <span class="file">.env.example</span>         <span class="comment"># Environment variable template</span>
+      </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="container">
+      <div class="philosophy">
+        <h2>Philosophy</h2>
+        <p>Pochade-JS embraces simplicity and vanilla web technologies. It's perfect for static websites, interactive web apps, browser extensions, or any project where you want modern tooling without framework overhead.</p>
+        <ul>
+          <li>No framework lock-in</li>
+          <li>No Shadow DOM</li>
+          <li>No CSS-in-JS</li>
+          <li>No complex build chains</li>
+          <li>No unnecessary abstractions</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Created by <a href="https://github.com/lnsy-dev">LNSY</a> &middot;
+        <a href="https://github.com/lnsy-dev/pochade-js">GitHub</a> &middot;
+        <a href="https://github.com/lnsy-dev/pochade-js/issues">Issues</a> &middot;
+        <a href="README.md">Full README</a>
+      </p>
+      <p style="margin-top:0.5rem; font-size:0.85rem;">Unlicense (Public Domain) &middot; Write JS with passion! 🎨</p>
+    </div>
+  </footer>
+
+</body>
+</html>
