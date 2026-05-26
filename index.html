@@ -313,6 +313,10 @@
           <h3>🤖 AI Context</h3>
           <p>Includes LLM-friendly documentation (<code>AGENTS.md</code>, <code>LLM.md</code>) for AI-assisted development.</p>
         </div>
+        <div class="feature">
+          <h3>⚙️ WASM Built In</h3>
+          <p>First-class C++ (Emscripten) and Rust (wasm-pack) support with pre-configured build scripts and example components.</p>
+        </div>
       </div>
     </section>
 
@@ -336,6 +340,71 @@
           <span class="step-number">4</span>
           <p>Start the dev server: <code>npm start</code> — then open <code>http://localhost:3000</code></p>
         </div>
+      </div>
+    </section>
+
+    <!-- WebAssembly -->
+    <section class="container">
+      <h2>WebAssembly</h2>
+      <p>Pochade-JS treats WebAssembly as a first-class citizen. Both C++ (via Emscripten) and Rust (via wasm-pack) are pre-configured with working examples.</p>
+
+      <h3 style="margin-top: 1.5rem;">C++ with Emscripten</h3>
+      <p>Write C++ in <code>src/wasm/cpp/</code>, compile with Emscripten, and call it from JavaScript via <code>cwrap</code>.</p>
+      <div class="tree">
+<span class="comment">// src/wasm/cpp/fibonacci.cpp</span>
+<span class="file">#include &lt;emscripten.h&gt;</span>
+<span class="file">extern "C" {</span>
+<span class="file">  EMSCRIPTEN_KEEPALIVE</span>
+<span class="file">  int fib(int n) {</span>
+<span class="file">    if (n &lt;= 1) return n;</span>
+<span class="file">    int a = 0, b = 1;</span>
+<span class="file">    for (int i = 2; i &lt;= n; ++i) {</span>
+<span class="file">      int temp = a + b; a = b; b = temp;</span>
+<span class="file">    }</span>
+<span class="file">    return b;</span>
+<span class="file">  }</span>
+<span class="file">}</span>
+      </div>
+      <p style="margin-top: 0.75rem;">Build: <code>npm run build:wasm:cpp</code></p>
+
+      <h3 style="margin-top: 1.5rem;">Rust with wasm-pack</h3>
+      <p>Write Rust in <code>src/wasm/rust/</code>, compile with wasm-bindgen, and import the generated ES module.</p>
+      <div class="tree">
+<span class="comment">// src/wasm/rust/fibonacci/src/lib.rs</span>
+<span class="file">use wasm_bindgen::prelude::*;</span>
+<span class="file"></span>
+<span class="file">#[wasm_bindgen]</span>
+<span class="file">pub fn fib(n: i32) -> i32 {</span>
+<span class="file">    if n &lt;= 1 { return n; }</span>
+<span class="file">    let mut a = 0;</span>
+<span class="file">    let mut b = 1;</span>
+<span class="file">    for _ in 2..=n {</span>
+<span class="file">        let temp = a + b; a = b; b = temp;</span>
+<span class="file">    }</span>
+<span class="file">    b</span>
+<span class="file">}</span>
+      </div>
+      <p style="margin-top: 0.75rem;">Build: <code>npm run build:wasm:rust</code></p>
+
+      <h3 style="margin-top: 1.5rem;">Using WASM in Components</h3>
+      <p>Load your compiled module in a dataroom-js component and call it like any JavaScript function:</p>
+      <div class="tree">
+<span class="comment">// Import the wasm binary URL (handled by the bundler)</span>
+<span class="file">import wasmUrl from './wasm/cpp/fibonacci.wasm';</span>
+<span class="file"></span>
+<span class="comment">// Dynamic import of the Emscripten glue module</span>
+<span class="file">const FibonacciCppModule = await import('./wasm/cpp/fibonacci.js');</span>
+<span class="file"></span>
+<span class="comment">// Instantiate with locateFile so it finds the .wasm binary</span>
+<span class="file">const Module = await FibonacciCppModule.default({</span>
+<span class="file">  locateFile: (filename) =&gt; filename.endsWith('.wasm') ? wasmUrl : filename</span>
+<span class="file">});</span>
+<span class="file"></span>
+<span class="comment">// Create a typed JS wrapper around the C++ function</span>
+<span class="file">const fib = Module.cwrap('fib', 'number', ['number']);</span>
+<span class="file"></span>
+<span class="comment">// Call it!</span>
+<span class="file">const result = fib(10);</span>
       </div>
     </section>
 
