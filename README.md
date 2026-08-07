@@ -42,6 +42,7 @@ The CLI will guide you through setup with interactive prompts:
 - **Author email** - Your email address
 - **GitHub username** - For repository links
 - **License** - Project license (defaults to Unlicense)
+- **Test suites** - Checkbox-style selection of which test suites to include: E2E (Playwright), behavioral (BDD-style Playwright), unit (Vitest), and mutation (Stryker). Only the selected suites — including their example tests, configs, dependencies, and `AGENTS.md` testing directives — end up in the generated project.
 
 After answering the prompts, Pochade-JS will:
 

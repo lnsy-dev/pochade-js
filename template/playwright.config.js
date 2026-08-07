@@ -26,6 +26,12 @@ export default defineConfig({
   testDir: './tests',
 
   /**
+   * Unit tests (Vitest) live alongside the Playwright specs — exclude
+   * them so Playwright never tries to run them.
+   */
+  testIgnore: '**/unit/**',
+
+  /**
    * Run tests in files in parallel.
    * Set to false if tests share mutable state (e.g., localStorage).
    */

@@ -104,6 +104,56 @@ async function askChoice(reader, question, options, defaultValue) {
 }
 
 /**
+ * Prompts the user to select multiple options from a numbered list
+ * (checkbox-style selection via comma-separated numbers)
+ *
+ * @param {object} reader - The line reader
+ * @param {string} question - The question to ask
+ * @param {Array<{label: string, value: string}>} options - Available options
+ * @returns {Promise<string[]>} The selected option values
+ */
+async function askMultiChoice(reader, question, options) {
+  console.log(`\n${question}`);
+  options.forEach((opt, i) => {
+    console.log(`  ${i + 1}. ${opt.label}`);
+  });
+  process.stdout.write(`Enter choices (e.g. 1,3), 'all', or 'none' [all]: `);
+
+  const answer = await reader.nextLine();
+  const trimmed = (answer ?? '').trim().toLowerCase();
+
+  if (!trimmed || trimmed === 'all') {
+    return options.map(o => o.value);
+  }
+  if (trimmed === 'none') {
+    return [];
+  }
+
+  const values = [];
+  const invalid = [];
+  trimmed.split(/[\s,]+/).forEach((token) => {
+    const num = parseInt(token, 10);
+    if (Number.isNaN(num) || num < 1 || num > options.length) {
+      invalid.push(token);
+      return;
+    }
+    const value = options[num - 1].value;
+    if (!values.includes(value)) {
+      values.push(value);
+    }
+  });
+
+  if (invalid.length > 0) {
+    console.log(`Ignoring invalid choice(s): ${invalid.join(', ')}`);
+  }
+  if (values.length === 0) {
+    console.log('No valid choices. Using default (all).');
+    return options.map(o => o.value);
+  }
+  return values;
+}
+
+/**
  * Collects project configuration from user input
  * 
  * @param {string} projectName - The project name
@@ -126,6 +176,15 @@ async function collectProjectInfo(projectName) {
   ];
   
   const wasmChoice = await askChoice(reader, 'Include WebAssembly support?', wasmOptions, 'none');
+
+  const testOptions = [
+    { label: 'End-to-end tests (Playwright)', value: 'e2e' },
+    { label: 'Behavioral tests (BDD-style, Playwright)', value: 'behavioral' },
+    { label: 'Unit tests (Vitest)', value: 'unit' },
+    { label: 'Mutation tests (Stryker — runs the unit test suite)', value: 'mutation' }
+  ];
+
+  const testTypes = await askMultiChoice(reader, 'Which test suites should be included?', testOptions);
   
   const config = {
     project_name: projectName,
@@ -139,7 +198,8 @@ async function collectProjectInfo(projectName) {
     author_email: await ask(reader, 'Author email', ''),
     github_username: await ask(reader, 'GitHub username', ''),
     license: await ask(reader, 'License', 'Unlicense'),
-    wasm_choice: wasmChoice
+    wasm_choice: wasmChoice,
+    test_types: testTypes
   };
   
   reader.close();
@@ -225,7 +285,7 @@ function configureWasmSupport(projectDir, config) {
   if (!includeCpp) {
     removeDir(path.join(projectDir, 'src', 'wasm', 'cpp'));
     const cppComponent = path.join(projectDir, 'src', 'wasm-cpp-component.js');
-    const cppTest = path.join(projectDir, 'tests', 'wasm-cpp-component.spec.js');
+    const cppTest = path.join(projectDir, 'tests', 'e2e', 'wasm-cpp-component.spec.js');
     if (fs.existsSync(cppComponent)) fs.unlinkSync(cppComponent);
     if (fs.existsSync(cppTest)) fs.unlinkSync(cppTest);
   }
@@ -233,7 +293,7 @@ function configureWasmSupport(projectDir, config) {
   if (!includeRust) {
     removeDir(path.join(projectDir, 'src', 'wasm', 'rust'));
     const rustComponent = path.join(projectDir, 'src', 'wasm-rust-component.js');
-    const rustTest = path.join(projectDir, 'tests', 'wasm-rust-component.spec.js');
+    const rustTest = path.join(projectDir, 'tests', 'e2e', 'wasm-rust-component.spec.js');
     if (fs.existsSync(rustComponent)) fs.unlinkSync(rustComponent);
     if (fs.existsSync(rustTest)) fs.unlinkSync(rustTest);
   }
@@ -312,6 +372,119 @@ function configureWasmSupport(projectDir, config) {
 
 
 /**
+ * Configures the test suites in the generated project based on user selection
+ *
+ * Removes test files, configs, dependencies, scripts, and documentation
+ * blocks for every test type the user did not select.
+ *
+ * @param {string} projectDir - The project directory path
+ * @param {object} config - Configuration object
+ * @returns {void}
+ */
+function configureTestSupport(projectDir, config) {
+  const selected = Array.isArray(config.test_types) ? [...config.test_types] : [];
+
+  // Mutation testing drives the unit test suite, so it cannot stand alone
+  if (selected.includes('mutation') && !selected.includes('unit')) {
+    console.log('\nℹ️  Mutation tests run against the unit test suite — including unit tests too.');
+    selected.push('unit');
+  }
+
+  const includeE2e = selected.includes('e2e');
+  const includeBehavioral = selected.includes('behavioral');
+  const includeUnit = selected.includes('unit');
+  const includeMutation = selected.includes('mutation');
+  const includePlaywright = includeE2e || includeBehavioral;
+  const includeAnyTests = includePlaywright || includeUnit || includeMutation;
+
+  // Delete test files for suites that were not selected
+  if (!includeE2e) removeDir(path.join(projectDir, 'tests', 'e2e'));
+  if (!includeBehavioral) removeDir(path.join(projectDir, 'tests', 'behavioral'));
+  if (!includeUnit) removeDir(path.join(projectDir, 'tests', 'unit'));
+
+  // Delete config files for suites that were not selected
+  const configFiles = [
+    { keep: includePlaywright, file: 'playwright.config.js' },
+    { keep: includeUnit, file: 'vitest.config.js' },
+    { keep: includeMutation, file: 'stryker.config.js' }
+  ];
+  configFiles.forEach(({ keep, file }) => {
+    if (!keep) {
+      const filePath = path.join(projectDir, file);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+  });
+
+  // Remove the tests directory entirely when no suite was selected
+  if (!includeAnyTests) {
+    removeDir(path.join(projectDir, 'tests'));
+  }
+
+  // Strip marker blocks for unselected suites from the docs
+  const docFiles = ['AGENTS.md', 'README.md'];
+  docFiles.forEach((file) => {
+    const filePath = path.join(projectDir, file);
+    if (!fs.existsSync(filePath)) return;
+    let content = fs.readFileSync(filePath, 'utf-8');
+    if (!includeE2e) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-E2E> -->', '<!-- </TESTING-E2E> -->');
+    }
+    if (!includeBehavioral) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-BEHAVIORAL> -->', '<!-- </TESTING-BEHAVIORAL> -->');
+    }
+    if (!includeUnit) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-UNIT> -->', '<!-- </TESTING-UNIT> -->');
+    }
+    if (!includeMutation) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-MUTATION> -->', '<!-- </TESTING-MUTATION> -->');
+    }
+    if (!includePlaywright) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-PLAYWRIGHT> -->', '<!-- </TESTING-PLAYWRIGHT> -->');
+    }
+    if (!includeAnyTests) {
+      content = removeMarkedBlocks(content, '<!-- <TESTING-ANY> -->', '<!-- </TESTING-ANY> -->');
+    }
+    fs.writeFileSync(filePath, content, 'utf-8');
+  });
+
+  // Update package.json scripts and devDependencies
+  const packageJsonPath = path.join(projectDir, 'package.json');
+  if (fs.existsSync(packageJsonPath)) {
+    const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+
+    if (pkg.devDependencies) {
+      if (!includePlaywright) delete pkg.devDependencies['@playwright/test'];
+      if (!includeUnit) delete pkg.devDependencies['vitest'];
+      if (!includeMutation) {
+        delete pkg.devDependencies['@stryker-mutator/core'];
+        delete pkg.devDependencies['@stryker-mutator/vitest-runner'];
+      }
+    }
+
+    if (pkg.scripts) {
+      if (!includePlaywright) {
+        delete pkg.scripts['test:ui'];
+        delete pkg.scripts['test:prod'];
+      }
+      if (!includeUnit) delete pkg.scripts['test:unit'];
+      if (!includeMutation) delete pkg.scripts['test:mutation'];
+
+      // Keep `npm test` pointing at whichever suites remain
+      if (includePlaywright) {
+        pkg.scripts.test = 'playwright test';
+      } else if (includeUnit) {
+        pkg.scripts.test = 'vitest run';
+      } else {
+        delete pkg.scripts.test;
+      }
+    }
+
+    fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2));
+  }
+}
+
+
+/**
  * Main function to create a new Pochade-JS project
  * 
  * @returns {Promise<void>}
@@ -376,6 +549,9 @@ async function createProject() {
   // Configure WASM support based on user choice
   configureWasmSupport(projectDir, config);
 
+  // Configure test suites based on user selection
+  configureTestSupport(projectDir, config);
+
   // Update package.json with the new project information
   const packageJsonPath = path.join(projectDir, 'package.json');
   const projectPackageJson = require(packageJsonPath);
@@ -433,6 +609,10 @@ async function createProject() {
   console.log('    Starts the development server.');
   console.log('\n  npm run build');
   console.log('    Builds the app for production.');
+  if (config.test_types && config.test_types.length > 0) {
+    console.log('\n  npm test');
+    console.log('    Runs the test suites you selected.');
+  }
   console.log('\n💡 We suggest that you begin by typing:');
   console.log(`\n  cd ${projectName}`);
   console.log('  npm start');

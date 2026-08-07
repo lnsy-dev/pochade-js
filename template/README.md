@@ -10,11 +10,13 @@ Install dependencies:
 npm install
 ```
 
+<!-- <TESTING-PLAYWRIGHT> -->
 Install Playwright browsers (required for testing):
 
 ```bash
 npx playwright install
 ```
+<!-- </TESTING-PLAYWRIGHT> -->
 
 ## Running the Project
 
@@ -36,9 +38,11 @@ npm run build
 
 This will create a `dist` folder with the bundled and optimized files.
 
+<!-- <TESTING-ANY> -->
 ## Testing
 
-Run the Playwright end-to-end test suite:
+<!-- <TESTING-PLAYWRIGHT> -->
+Run the Playwright end-to-end and behavioral test suites:
 
 ```bash
 npm test
@@ -55,6 +59,24 @@ Run tests against the production build:
 ```bash
 npm test:prod
 ```
+<!-- </TESTING-PLAYWRIGHT> -->
+
+<!-- <TESTING-UNIT> -->
+Run the unit tests:
+
+```bash
+npm run test:unit
+```
+<!-- </TESTING-UNIT> -->
+
+<!-- <TESTING-MUTATION> -->
+Run mutation tests against the unit test suite:
+
+```bash
+npm run test:mutation
+```
+<!-- </TESTING-MUTATION> -->
+<!-- </TESTING-ANY> -->
 
 ## Customizing the Build
 
@@ -99,13 +121,23 @@ SEPARATE_CSS=true
 - `src/` - Your JavaScript source files
 - `src/wasm/` - WebAssembly source files (C++ and Rust)
 - `styles/` - CSS files
-- `tests/` - Playwright E2E tests
+<!-- <TESTING-ANY> -->
+- `tests/` - Test files
+<!-- </TESTING-ANY> -->
 - `scripts/` - Build scripts (including Web Worker transformation)
 - `index.html` - Main HTML file
 - `index.js` - Main JavaScript entry point
 - `index.css` - Main CSS file
 - `webpack.config.js` - Webpack configuration
+<!-- <TESTING-PLAYWRIGHT> -->
 - `playwright.config.js` - Playwright test configuration
+<!-- </TESTING-PLAYWRIGHT> -->
+<!-- <TESTING-UNIT> -->
+- `vitest.config.js` - Vitest unit test configuration
+<!-- </TESTING-UNIT> -->
+<!-- <TESTING-MUTATION> -->
+- `stryker.config.js` - Stryker mutation test configuration
+<!-- </TESTING-MUTATION> -->
 
 ## Webpack Build Configuration
 
@@ -214,7 +246,15 @@ See `src/wasm-cpp-component.js` and `src/wasm-rust-component.js` for complete ex
 - **WebAssembly** - For high-performance compute (C++ and Rust)
 - **PostCSS** - CSS processing with cssnano optimization
 - **SWC** - Fast JavaScript/TypeScript compiler
-- **Playwright** - End-to-end testing
+<!-- <TESTING-PLAYWRIGHT> -->
+- **Playwright** - End-to-end and behavioral testing
+<!-- </TESTING-PLAYWRIGHT> -->
+<!-- <TESTING-UNIT> -->
+- **Vitest** - Unit testing
+<!-- </TESTING-UNIT> -->
+<!-- <TESTING-MUTATION> -->
+- **Stryker** - Mutation testing
+<!-- </TESTING-MUTATION> -->
 
 ## Publishing to npm
 
@@ -240,10 +280,12 @@ This project is configured for publishing to npm. Follow these steps to publish:
    ```
    Ensure the `dist/` directory is created successfully.
 
+<!-- <TESTING-ANY> -->
 4. **Run the tests**:
    ```bash
    npm test
    ```
+<!-- </TESTING-ANY> -->
 
 ### Publishing
 

@@ -10,7 +10,9 @@ This file governs all code in this directory and its subdirectories.
 - **Custom Elements**: dataroom-js (extends HTMLElement)
 - **Workers**: Web Workers with custom inline bundling
 - **WebAssembly**: C++ via Emscripten, Rust via wasm-pack
-- **Testing**: Playwright E2E tests
+<!-- <TESTING-ANY> -->
+- **Testing**: see the Testing section below
+<!-- </TESTING-ANY> -->
 
 ## Code Style
 
@@ -79,13 +81,53 @@ Never use string paths: `new Worker('./my-worker.js')` — bundlers cannot trace
 - Load pkg module with dynamic `import()`
 - Call `await module.default()` before using exports
 
+<!-- <TESTING-ANY> -->
 ### Testing
 
+**Directive:** Write and run tests for every feature you add or change. Use each suite below for its stated purpose, keep all of them green, and add a matching test whenever you introduce new behavior.
+
+<!-- <TESTING-E2E> -->
+#### E2E Tests (Playwright)
+
 - Use `@playwright/test` for all E2E tests
-- Place tests in `tests/*.spec.js`
+- Place tests in `tests/e2e/*.spec.js`
+- Run with `npm test`; debug with `npm run test:ui`; verify the production build with `npm run test:prod`
 - Use `page.locator()` for element selection
 - Use `page.evaluate()` for testing custom events
 - Use 15-second timeouts for wasm-dependent assertions
+- Every user-facing feature MUST have an E2E test; run the suite before considering any change complete
+<!-- </TESTING-E2E> -->
+
+<!-- <TESTING-BEHAVIORAL> -->
+#### Behavioral Tests (BDD-style, Playwright)
+
+- Place tests in `tests/behavioral/*.feature.spec.js`
+- Run with `npm test` (they execute alongside the E2E suite)
+- Structure every scenario with explicit Given / When / Then steps via `test.step()` — see `tests/behavioral/counter.feature.spec.js`
+- Describe behavior from the user's point of view; assert only on what the user can observe, never on internal state
+- Write the scenario first, then implement until it passes
+<!-- </TESTING-BEHAVIORAL> -->
+
+<!-- <TESTING-UNIT> -->
+#### Unit Tests (Vitest)
+
+- Use `vitest`; place tests in `tests/unit/*.test.js`
+- Run with `npm run test:unit`
+- Unit tests target pure logic only — no DOM, no dev server. Extract logic from components into `src/*-logic.js` modules (see `src/counter-logic.js`) and test those
+- Assert exact values, not just definedness — weak assertions produce surviving mutants
+- New logic MUST ship with unit tests in the same change
+<!-- </TESTING-UNIT> -->
+
+<!-- <TESTING-MUTATION> -->
+#### Mutation Tests (Stryker)
+
+- Run with `npm run test:mutation`
+- Stryker mutates the files listed in `stryker.config.js` (`mutate` array) and reruns the Vitest unit suite for each mutant
+- Only add a file to `mutate` once it has real unit test coverage
+- Investigate every surviving mutant: either strengthen the unit test to kill it or document why it is equivalent
+- Keep the mutation score above the `break` threshold in `stryker.config.js`
+<!-- </TESTING-MUTATION> -->
+<!-- </TESTING-ANY> -->
 
 ### State Management
 
@@ -106,7 +148,9 @@ Never use string paths: `new Worker('./my-worker.js')` — bundlers cannot trace
 | `src/` | JavaScript modules and components |
 | `src/wasm/` | WebAssembly source files and binaries |
 | `styles/` | CSS files (one per component or concern) |
-| `tests/` | Playwright E2E test files |
+<!-- <TESTING-ANY> -->
+| `tests/` | Test files (see Testing section) |
+<!-- </TESTING-ANY> -->
 | `scripts/` | Build-time transformation scripts |
 | `assets/` | Static files (images, fonts, etc.) |
 

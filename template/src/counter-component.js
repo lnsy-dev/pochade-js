@@ -16,6 +16,7 @@
  */
 
 import DataroomElement from 'dataroom-js';
+import { increment, decrement, reset } from './counter-logic.js';
 
 /**
  * CounterComponent
@@ -73,7 +74,7 @@ class CounterComponent extends DataroomElement {
    * @returns {void}
    */
   increment() {
-    this.count += 1;
+    this.count = increment(this.count);
     this.updateDisplay();
   }
 
@@ -83,7 +84,7 @@ class CounterComponent extends DataroomElement {
    * @returns {void}
    */
   decrement() {
-    this.count -= 1;
+    this.count = decrement(this.count);
     this.updateDisplay();
   }
 
@@ -93,7 +94,7 @@ class CounterComponent extends DataroomElement {
    * @returns {void}
    */
   reset() {
-    this.count = 0;
+    this.count = reset();
     this.updateDisplay();
   }
 
