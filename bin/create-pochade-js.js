@@ -257,6 +257,17 @@ function removeMarkedBlocks(content, startMarker, endMarker) {
 }
 
 /**
+ * Returns a random integer between min and max (inclusive).
+ * 
+ * @param {number} min - Minimum value
+ * @param {number} max - Maximum value
+ * @returns {number} Random integer in range
+ */
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
  * Recursively removes a directory and all its contents
  * 
  * @param {string} dirPath - The directory path to remove
@@ -542,6 +553,25 @@ async function createProject() {
       fs.renameSync(fromPath, toPath);
     }
   });
+
+  // Assign a random dev server port and persist it in .env so each
+  // bootstrapped project starts on its own port by default.
+  const devPort = getRandomInt(3000, 9000);
+  const envPath = path.join(projectDir, '.env');
+  const envContent = fs.existsSync(envPath)
+    ? fs.readFileSync(envPath, 'utf-8').trimEnd() + `\nPORT=${devPort}\n`
+    : `PORT=${devPort}\n`;
+  fs.writeFileSync(envPath, envContent, 'utf-8');
+
+  // Document the PORT option in .env.example as well.
+  const envExamplePath = path.join(projectDir, '.env.example');
+  if (fs.existsSync(envExamplePath)) {
+    let envExample = fs.readFileSync(envExamplePath, 'utf-8');
+    if (!envExample.includes('PORT=')) {
+      envExample = envExample.trimEnd() + `\nPORT=${devPort}\n`;
+      fs.writeFileSync(envExamplePath, envExample, 'utf-8');
+    }
+  }
 
   // Update index.html with project-specific values
   updateIndexHtml(projectDir, config);
